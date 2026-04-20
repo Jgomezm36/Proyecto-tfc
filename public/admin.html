@@ -28,6 +28,18 @@
                 <h3>Base de Datos Actual</h3>
                 <ul id="admin-list" style="list-style: none; padding: 0;"></ul>
             </section>
+            <hr>
+<h3>Clientes Recurrentes (VIP)</h3>
+<form id="client-form" style="margin-bottom: 15px;">
+    <input type="text" id="client-name" placeholder="Nombre del Cliente" required>
+    <input type="text" id="client-phone" placeholder="Teléfono" required>
+    <select id="client-destination" required>
+        <option value="" disabled selected>Selecciona su destino habitual...</option>
+        </select>
+    <button type="submit">Añadir Cliente</button>
+</form>
+<ul id="clients-list" style="list-style: none; padding: 0;">
+    </ul>
         </div>
 
         <div style="flex: 1; border-left: 1px solid #ccc; padding-left: 20px;">
