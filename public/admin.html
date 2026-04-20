@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Chófer</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div class="container" style="max-width: 700px; display: flex; gap: 20px;">
+        <div style="flex: 1;">
+            <header>
+                <h1>Panel del Chófer</h1>
+                <a href="index.html">← Ir a la web del cliente</a>
+            </header>
+            <section class="admin-panel">
+                <h3>Crear Viaje Acordado</h3>
+                <form id="add-form">
+                    <input type="text" id="new-name" placeholder="Nombre (Ej. Viaje Cliente Chat)" required>
+                    <input type="number" id="new-price" placeholder="Precio Acordado (€)" required>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="new-lat" placeholder="Latitud" required>
+                        <input type="text" id="new-lng" placeholder="Longitud" required>
+                    </div>
+                    <button type="submit">Guardar Destino en BD</button>
+                </form>
+                <hr>
+                <h3>Base de Datos Actual</h3>
+                <ul id="admin-list" style="list-style: none; padding: 0;"></ul>
+            </section>
+        </div>
+
+        <div style="flex: 1; border-left: 1px solid #ccc; padding-left: 20px;">
+            <h3>Central de Chat</h3>
+            <div class="chat-messages" id="chat-messages" style="height: 350px; background: white; border: 1px solid #ccc;"></div>
+            <div class="chat-input" style="margin-top:10px;">
+                <input type="text" id="chat-input" placeholder="Responder al cliente...">
+                <button onclick="enviarMensaje()">Enviar</button>
+            </div>
+        </div>
+    </div>
+    <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chófer Privado</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/socket.io/socket.io.js"></script> </head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Reserva tu Chófer</h1>
+            <p>Elige un destino o haz clic en el mapa para uno personalizado.</p>
+        </header>
+        <main>
+            <div id="map"></div>
+            <section class="selection-panel">
+                <select id="destination-select">
+                    <option value="" disabled selected>Cargando destinos...</option>
+                </select>
+                <div id="price-display" class="price-box hidden">
+                    Tarifa Acordada: <span id="price-value">0€</span>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-header">Chat con el Chófer</div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input">
+            <input type="text" id="chat-input" placeholder="Escribe un mensaje...">
+            <button onclick="enviarMensaje()">Enviar</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
