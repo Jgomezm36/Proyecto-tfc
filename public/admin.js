@@ -61,3 +61,66 @@ socket.on('mensaje_chat', (data) => {
     box.appendChild(div);
     box.scrollTop = box.scrollHeight;
 });
+// --- LÓGICA DE CLIENTES RECURRENTES ---
+const clientsList = document.getElementById('clients-list');
+const clientForm = document.getElementById('client-form');
+const clientSelect = document.getElementById('client-destination');
+
+// Cargar la lista de clientes
+function loadClientes() {
+    fetch('/api/clientes')
+        .then(res => res.json())
+        .then(res => {
+            clientsList.innerHTML = '';
+            res.data.forEach(c => {
+                const li = document.createElement('li');
+                li.innerHTML = `👤 <b>${c.nombre}</b> (${c.telefono}) <br> 📍 Destino VIP: <i>${c.destino_frecuente}</i>`;
+                clientsList.appendChild(li);
+            });
+        });
+}
+
+// Rellenar el desplegable de destinos para el formulario de clientes
+function updateDestinationsSelect() {
+    fetch('/api/destinos')
+        .then(res => res.json())
+        .then(res => {
+            clientSelect.innerHTML = '<option value="" disabled selected>Selecciona su destino habitual...</option>';
+            res.data.forEach(d => {
+                const option = document.createElement('option');
+                option.value = d.id; // Aquí guardamos la Clave Foránea (Foreign Key)
+                option.textContent = d.nombre;
+                clientSelect.appendChild(option);
+            });
+        });
+}
+
+// Guardar nuevo cliente
+clientForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = {
+        nombre: document.getElementById('client-name').value,
+        telefono: document.getElementById('client-phone').value,
+        destino_id: document.getElementById('client-destination').value
+    };
+
+    fetch('/api/clientes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    }).then(() => {
+        clientForm.reset();
+        loadClientes();
+        alert('Cliente recurrente añadido con éxito.');
+    });
+});
+
+// Llamar a las funciones al iniciar la página
+loadClientes();
+updateDestinationsSelect();
+
+// Truco: Cuando se actualicen los destinos por WebSockets, actualizamos también el desplegable
+socket.on('actualizar_destinos', () => {
+    loadDestinos();
+    updateDestinationsSelect();
+});
