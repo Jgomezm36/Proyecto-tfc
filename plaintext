@@ -1,0 +1,11 @@
+chofer-final/
+├── public/
+│   ├── index.html    (Web del cliente con mapa y chat)
+│   ├── admin.html    (Panel del chófer con gestor y chat)
+│   ├── style.css     (Diseño unificado)
+│   ├── app.js        (Lógica del cliente)
+│   └── admin.js      (Lógica del chófer)
+├── database.js       (Base de datos SQLite)
+├── server.js         (Servidor con Express y Socket.io)
+├── package.json      (Dependencias)
+└── README.md         (Documentación final)
