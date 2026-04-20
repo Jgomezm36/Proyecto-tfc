@@ -59,3 +59,27 @@ io.on('connection', (socket) => {
 server.listen(PORT, () => {
     console.log(`Servidor completo corriendo en http://localhost:${PORT}`);
 });
+// --- API: CLIENTES RECURRENTES ---
+
+// Obtener todos los clientes con su destino favorito (Uso de INNER JOIN)
+app.get('/api/clientes', (req, res) => {
+    const sql = `
+        SELECT clientes.id, clientes.nombre, clientes.telefono, destinos.nombre AS destino_frecuente 
+        FROM clientes 
+        JOIN destinos ON clientes.destino_id = destinos.id
+    `;
+    db.all(sql, [], (err, rows) => {
+        if (err) return res.status(400).json({"error":err.message});
+        res.json({"message":"success", "data":rows});
+    });
+});
+
+// Crear un nuevo cliente
+app.post('/api/clientes', (req, res) => {
+    const { nombre, telefono, destino_id } = req.body;
+    const sql = "INSERT INTO clientes (nombre, telefono, destino_id) VALUES (?,?,?)";
+    db.run(sql, [nombre, telefono, destino_id], function(err) {
+        if (err) return res.status(400).json({"error": err.message});
+        res.json({"message": "success", "id": this.lastID});
+    });
+});
