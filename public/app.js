@@ -80,3 +80,38 @@ socket.on('actualizar_destinos', () => {
     cargarDestinos();
     alert("El chófer ha actualizado la lista de destinos disponibles.");
 });
+let originMarker = null; // Variable para el marcador de origen (donde está el cliente)
+
+function localizarCliente() {
+    // Comprobar si el navegador soporta geolocalización
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                const lat = pos.coords.latitude;
+                const lng = pos.coords.longitude;
+
+                // 1. Centrar el mapa en el cliente
+                map.setView([lat, lng], 15);
+
+                // 2. Colocar o mover el marcador de origen
+                if (originMarker) map.removeLayer(originMarker);
+                
+                // Usamos un icono azul por defecto para el origen
+                originMarker = L.marker([lat, lng]).addTo(map)
+                    .bindPopup("<b>Estás aquí</b><br>Punto de recogida")
+                    .openPopup();
+
+                // 3. (Opcional) Enviar mensaje automático al chat para informar al chófer
+                socket.emit('mensaje_chat', { 
+                    emisor: 'cliente', 
+                    texto: `📍 Mi ubicación de recogida es: https://www.google.com/maps?q=${lat},${lng}` 
+                });
+            },
+            (error) => {
+                alert("Error al obtener ubicación. Asegúrate de dar permisos en el navegador.");
+            }
+        );
+    } else {
+        alert("Tu navegador no soporta geolocalización.");
+    }
+}
